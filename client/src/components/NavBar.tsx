@@ -10,10 +10,10 @@ function NavBar() {
     <nav className="bg-gray-100 shadow-md p-4 flex justify-between items-center text-zinc-950 relative">
       {/* Left side with logo and restaurant name */}
       <div className="flex items-center space-x-2 text-zinc-950 font-bold text-lg">
-        <Link to="/" className="flex items-center font-bold text-lg">
+        <Link to="/" className="flex items-center font-bold text-lg mr-3">
           <CookingPot className="h-8 w-8" />
         </Link>
-        <div>
+        <div className = "">
           Eat
         </div>
       </div>

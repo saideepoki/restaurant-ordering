@@ -13,6 +13,7 @@ import { SignupSchema } from "../schemas/Signup";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link } from "react-router-dom";
+import { Soup } from "lucide-react";
 
 function Signup() {
   const form = useForm<z.infer<typeof SignupSchema>>({
@@ -26,8 +27,12 @@ function Signup() {
   return (
     <div className="flex items-center justify-center p-4">
       <div className="bg-zinc-200 p-6 rounded w-full max-w-md">
+        <div className = "flex flex-row justify-center items-center mb-2">
+            <h2 className = "text-zinc-950 font-extrabold text-2xl mr-3">Welcome to Eat </h2>
+            <span><Soup/></span>
+        </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="username"

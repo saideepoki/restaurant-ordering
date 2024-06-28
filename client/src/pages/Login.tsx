@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginSchema } from "../schemas/Login";
 import { Link } from "react-router-dom";
+import { Croissant } from "lucide-react";
 
 function Login() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -26,6 +27,10 @@ function Login() {
   return (
     <div className="flex min-h-width items-center justify-center p-4 mt-10">
       <div className="bg-zinc-200 p-8 rounded shadow-md w-full max-w-md">
+      <div className = "flex flex-row justify-center items-center mb-2">
+            <h2 className = "text-zinc-950 font-extrabold text-2xl mr-3">Welcome Back!</h2>
+            <span><Croissant/></span>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
