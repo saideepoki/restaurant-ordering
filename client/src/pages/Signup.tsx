@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link } from "react-router-dom";
 import { Soup } from "lucide-react";
+import axios from "axios";
 
 function Signup() {
   const form = useForm<z.infer<typeof SignupSchema>>({
@@ -22,6 +23,11 @@ function Signup() {
 
   async function onSubmit(data: any) {
     console.log(data);
+    axios.post('/register',{
+      username: data.username,
+      email: data.email,
+      password: data.password
+    })
   }
 
   return (

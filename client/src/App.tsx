@@ -9,7 +9,9 @@ import StaffLogin from "./pages/StaffLogin";
 import StaffOrders from "./pages/StaffOrders";
 import Error from "./pages/Error";
 import NavBar from "./components/NavBar";
+import axios from "axios";
 
+axios.defaults.baseURL = 'http://localhost:4000'
 function App() {
   const location = useLocation();
   const showNavBar = !["/sign-in", "/sign-up"].includes(location.pathname)
