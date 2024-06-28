@@ -25,14 +25,22 @@ function Login() {
   }
 
   return (
-    <div className="flex min-h-width items-center justify-center p-4 mt-10">
-      <div className="bg-zinc-200 p-8 rounded shadow-md w-full max-w-md">
-      <div className = "flex flex-row justify-center items-center mb-2">
-            <h2 className = "text-zinc-950 font-extrabold text-2xl mr-3">Welcome Back!</h2>
-            <span><Croissant/></span>
+    <div className="min-h-screen flex">
+      {/* Left section with the photo */}
+      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('sign-in.jpg')" }}>
+        {/* You can add any content here if needed */}
+      </div>
+
+      {/* Right section with the form */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6 mb-12">
+        <div className="flex flex-row justify-center items-center mb-6">
+          <Link to="/" className="flex items-center">
+            <Croissant className="h-8 w-8 mr-2" />
+            <h2 className="text-zinc-950 font-extrabold text-2xl">Welcome Back!</h2>
+          </Link>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
             <FormField
               control={form.control}
               name="identifier"

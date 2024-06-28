@@ -25,14 +25,22 @@ function Signup() {
   }
 
   return (
-    <div className="flex items-center justify-center p-4">
-      <div className="bg-zinc-200 p-6 rounded w-full max-w-md">
-        <div className = "flex flex-row justify-center items-center mb-2">
-            <h2 className = "text-zinc-950 font-extrabold text-2xl mr-3">Welcome to Eat </h2>
-            <span><Soup/></span>
+    <div className="min-h-screen flex">
+      {/* Left section with the photo */}
+      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: `url("/sign-up.jpg")`}}>
+        
+      </div>
+
+      {/* Right section with the form */}
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6 mb-10">
+        <div className="flex flex-row justify-center items-center mb-6">
+          <Link to="/" className="flex items-center">
+            <Soup className="h-8 w-8 mr-2" />
+            <h2 className="text-zinc-950 font-extrabold text-2xl">Welcome to Eat</h2>
+          </Link>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
             <FormField
               control={form.control}
               name="username"
