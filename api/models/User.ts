@@ -1,4 +1,5 @@
 import mongoose, {Schema, Document} from "mongoose";
+import bcrypt from 'bcrypt';
 
 const UserSchema: Schema = new Schema({
     username: {
@@ -35,9 +36,28 @@ const UserSchema: Schema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'MenuItem'
         }
-    ]
+    ],
+    refreshToken: {
+        type: String
+    }
 
+});
+
+UserSchema.pre('save',async function(next) {
+    if(!this.isModified('password')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (err) {
+        console.log(err)
+        next(err);
+    }
 })
+
+UserSchema.methods.isPasswordCorrect = async function(password: string) {
+    return await bcrypt.compare(password,this.password);
+}
 
 const User = (mongoose.models.User) || (mongoose.model("User",UserSchema));
 
