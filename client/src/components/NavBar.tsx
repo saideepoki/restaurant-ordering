@@ -26,7 +26,7 @@ function NavBar() {
       </div>
 
       {/* Middle section with navigation links */}
-      <div className="hidden md:flex justify-center flex-1 ml-10">
+      <div className="hidden md:flex justify-center items-center">
         <ul className="flex space-x-6">
           <li><Link to="/" className="text-gray-800 hover:text-gray-600">Home</Link></li>
           <li><Link to="/menu" className="text-gray-800 hover:text-gray-600">Menu</Link></li>

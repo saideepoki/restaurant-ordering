@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +26,8 @@ dist-ssr
 
 /UsersmynameAppDataRoamingnpm-cache
 UsersmynameAppDataRoamingnpm-cache
+
+#api
+/api/node_modules
+/api/UsersmynameAppDataRoamingnpm-cache
+/api/.env
