@@ -16,6 +16,7 @@ export interface MenuItemDocument extends Document {
     price: number;
     category: MenuItemCategory;
     imageUrl: string;
+    rating: number
     featured: boolean;
 }
 
@@ -40,6 +41,12 @@ const MenuItemSchema: Schema<MenuItemDocument> = new Schema({
     imageUrl: {
         type: String,
         required: true
+    },
+    rating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5
     },
     featured: {
         type: Boolean,
