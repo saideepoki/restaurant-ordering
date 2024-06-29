@@ -9,12 +9,12 @@ export type MenuItemCategory =
   | 'appetizers';
 
 export interface MenuItem{
-    _id?: string;
+    _id: string;
     name: string;
     description: string;
     price: number;
     category: MenuItemCategory;
     imageUrl: string;
-    rating: number
+    rating: number;
     featured: boolean;
 }
