@@ -1,7 +1,5 @@
 import mongoose, {Schema, Document} from "mongoose";
 
-
-
 const UserSchema: Schema = new Schema({
     username: {
         type: String,
@@ -31,7 +29,13 @@ const UserSchema: Schema = new Schema({
     isVerified: {
         type: Boolean,
         default: false
-    }
+    },
+    favorites: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'MenuItem'
+        }
+    ]
 
 })
 

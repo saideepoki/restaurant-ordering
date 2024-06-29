@@ -2,6 +2,7 @@ import register from "./controllers/register";
 import mongoose from "mongoose";
 import { populateMenuItems } from "./utils/populateMenuItems";
 import { featuredItems } from "./controllers/featuredItems";
+import { menuItems } from "./controllers/menuItems";
 
 const express = require('express');
 const cors = require('cors');
@@ -30,5 +31,7 @@ app.get('/',(req: any,res: any) => {
 app.post('/register', register);
 
 app.get('/featuredItems',featuredItems);
+
+app.get('/menuItems',menuItems);
 
 app.listen(4000);

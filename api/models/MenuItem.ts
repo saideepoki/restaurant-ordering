@@ -32,7 +32,7 @@ const MenuItemSchema: Schema = new Schema({
     featured: {
         type: Boolean,
         default: false
-    }
+    },
 })
 
 const MenuItem = (mongoose.models.MenuItem) || (mongoose.model("MenuItem",MenuItemSchema));
