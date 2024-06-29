@@ -1,16 +1,8 @@
 import mongoose, {Schema, Document} from "mongoose";
 
-export interface UserDocument extends Document {
-    username: string;
-    email: string;
-    password: string;
-    otpHash: string;
-    otpExpires: Date;
-    isVerified: boolean;
-    role: "customer" | "staff";
-}
 
-const UserSchema: Schema<UserDocument> = new Schema({
+
+const UserSchema: Schema = new Schema({
     username: {
         type: String,
         required: true,
@@ -43,6 +35,6 @@ const UserSchema: Schema<UserDocument> = new Schema({
 
 })
 
-const User = (mongoose.models.User) || (mongoose.model<UserDocument>("User",UserSchema));
+const User = (mongoose.models.User) || (mongoose.model("User",UserSchema));
 
 export default User;

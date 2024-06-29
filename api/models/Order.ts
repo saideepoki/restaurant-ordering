@@ -1,20 +1,7 @@
 import mongoose, {Schema, Document} from "mongoose";
 
 
-export interface OrderItem {
-    menuItem: Schema.Types.ObjectId;
-    quantity: number;
-}
-export interface OrderDocument extends Document {
-    customer: mongoose.Types.ObjectId;
-    tableNumber: number;
-    items: OrderItem[];
-    totalAmount: number;
-    status: 'pending' | 'completed';
-    createdAt: Date;
-}
-
-const OrderSchema: Schema<OrderDocument> = new Schema({
+const OrderSchema: Schema = new Schema({
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -52,6 +39,6 @@ const OrderSchema: Schema<OrderDocument> = new Schema({
     }
 })
 
-const Order = (mongoose.models.Order) || (mongoose.model<OrderDocument>('Order',OrderSchema));
+const Order = (mongoose.models.Order) || (mongoose.model('Order',OrderSchema));
 
 export default Order;

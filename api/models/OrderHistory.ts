@@ -1,11 +1,7 @@
 import mongoose, {Schema, Document} from "mongoose";
 
-export interface OrderHistoryDocument extends Document {
-customer: mongoose.Types.ObjectId;
-orders: mongoose.Types.ObjectId[]
-}
 
-const OrderHistorySchema: Schema<OrderHistoryDocument> = new Schema({
+const OrderHistorySchema: Schema = new Schema({
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
@@ -20,6 +16,6 @@ const OrderHistorySchema: Schema<OrderHistoryDocument> = new Schema({
     ]
 })
 
-const OrderHistory = (mongoose.models.OrderHistory) || (mongoose.model<OrderHistoryDocument>('OrderHistory',OrderHistorySchema));
+const OrderHistory = (mongoose.models.OrderHistory) || (mongoose.model('OrderHistory',OrderHistorySchema));
 
 export default OrderHistory;

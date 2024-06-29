@@ -1,26 +1,7 @@
 import mongoose,{Schema, Document} from "mongoose";
 
-export type MenuItemCategory =
-  | 'starters'
-  | 'main courses'
-  | 'breads'
-  | 'rice & biryani'
-  | 'desserts'
-  | 'drinks'
-  | 'sides'
-  | 'appetizers';
 
-export interface MenuItemDocument extends Document {
-    name: string;
-    description: string;
-    price: number;
-    category: MenuItemCategory;
-    imageUrl: string;
-    rating: number
-    featured: boolean;
-}
-
-const MenuItemSchema: Schema<MenuItemDocument> = new Schema({
+const MenuItemSchema: Schema = new Schema({
     name: {
         type: String,
         required: true
@@ -54,6 +35,6 @@ const MenuItemSchema: Schema<MenuItemDocument> = new Schema({
     }
 })
 
-const MenuItem = (mongoose.models.MenuItem) || (mongoose.model<MenuItemDocument>("MenuItem",MenuItemSchema));
+const MenuItem = (mongoose.models.MenuItem) || (mongoose.model("MenuItem",MenuItemSchema));
 
 export default MenuItem;
