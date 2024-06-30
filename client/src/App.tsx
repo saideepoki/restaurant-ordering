@@ -15,7 +15,7 @@ import axios from "axios";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./components/AuthProvider";
 
-axios.defaults.baseURL = 'http://localhost:4000'
+axios.defaults.baseURL = 'https://restaurant-ordering-1.onrender.com'
 axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
