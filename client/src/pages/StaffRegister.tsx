@@ -9,80 +9,93 @@ import {
   FormMessage,
 } from "../components/ui/form";
 import { Input } from "../components/ui/input";
+import { SignupSchema } from "../schemas/Signup";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { LoginSchema } from "../schemas/Login";
-import { Link, useNavigate } from "react-router-dom";
-import { Croissant } from "lucide-react";
+import { Link,useNavigate} from "react-router-dom";
+import { Soup } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useToast } from "../components/ui/use-toast";
 import { ApiResponse } from "../types/ApiResponse";
 
-function Login() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+function StaffRegister() {
+  const form = useForm<z.infer<typeof SignupSchema>>({
+    resolver: zodResolver(SignupSchema),
   });
-  const { toast } = useToast();
+  const {toast} = useToast();
   const navigate = useNavigate();
 
   async function onSubmit(data: any) {
-    try {
-      const response = await axios.post('/staff/login', {
-        identifier: data.identifier,
-        password: data.password,
-      });
-
-      if (!response.data.success) {
+    try{
+      const response = await axios.post('/staff/register',{
+        username: data.username,
+        email: data.email,
+        password: data.password
+      })
+      if(!response.data.success) {
         toast({
-          title: "Login",
+          title: "Registration",
           description: response.data.message,
           variant: "destructive"
-        });
-      } else {
-        toast({
-          title: "Login",
-          description: "Login successful",
-          variant: "default"
-        });
-
-        // Redirect to dashboard or another authenticated page
-        navigate('/');
+        })
       }
-    } catch (err) {
+      toast({
+        title: "Registration",
+        description: response.data.message,
+        variant: "default"
+      })
+      navigate(`/verify/${data.email}`);
+    }catch(err) {
       const axiosError = err as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message ?? "Internal Server Error";
       console.error(errorMessage);
       toast({
-        title: "Login",
+        title: "Registration",
         description: errorMessage,
         variant: "destructive"
-      });
+      })
+
     }
   }
 
   return (
     <div className="min-h-screen flex">
-      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('sign-in.jpg')" }}>
+      {/* Left section with the photo */}
+      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: `url("/sign-up.jpg")`}}>
+        
       </div>
 
       {/* Right section with the form */}
-      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6 mb-12">
+      <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-6 mb-10">
         <div className="flex flex-row justify-center items-center mb-6">
           <Link to="/" className="flex items-center">
-            <Croissant className="h-8 w-8 mr-2" />
-            <h2 className="text-zinc-950 font-extrabold text-2xl">Welcome Back!</h2>
+            <Soup className="h-8 w-8 mr-2" />
+            <h2 className="text-zinc-950 font-extrabold text-2xl">Welcome to Eat</h2>
           </Link>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
             <FormField
               control={form.control}
-              name="identifier"
+              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email / Username</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email or Username" {...field} />
+                    <Input placeholder="Username" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,9 +121,9 @@ function Login() {
         </Form>
         <div className="text-center mt-4">
           <p>
-            Haven't registered?{" "}
-            <Link to="/staff/register" className="text-zinc-600">
-              Sign up
+            Already registered?{" "}
+            <Link to="/staff/login" className="text-zinc-600">
+              Log in
             </Link>
           </p>
         </div>
@@ -119,4 +132,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default StaffRegister;

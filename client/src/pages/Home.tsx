@@ -48,17 +48,6 @@ function Home() {
       {/* Featured Menu Items */}
       <FeaturedFoodItems/>
 
-      {/* Special Offers */}
-      <section className="special-offers-section bg-yellow-100 p-8 text-center">
-        <h2 className="text-3xl font-bold mb-4">Special Offers</h2>
-        <p className="text-lg mb-6">Check out our latest promotions and discounts!</p>
-        <Link to="/specials">
-          <Button className="bg-yellow-500 text-black px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-600 transition duration-300">
-            View Offers
-          </Button>
-        </Link>
-      </section>
-
       {/* Testimonials */}
       <section className="testimonials-section p-8">
         <h2 className="text-3xl font-bold mb-4 text-center">Customer Reviews</h2>

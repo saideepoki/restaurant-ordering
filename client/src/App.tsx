@@ -5,11 +5,12 @@ import Login from "./pages/Login";
 import VerifyOtp from "./pages/VerifyUser";
 import Menu from "./pages/Menu";
 import Cart from './pages/Cart';
-import OrderDetails from "./pages/OrderDetails";
+import Order from './pages/Order';
 import StaffLogin from "./pages/StaffLogin";
-import StaffOrders from "./pages/StaffOrders";
+import StaffRegister from "./pages/StaffRegister";
 import Error from "./pages/Error";
 import NavBar from "./components/NavBar";
+import OrderManagement from './pages/OrderManagement';
 import axios from "axios";
 import { Toaster } from "./components/ui/toaster";
 import { AuthProvider } from "./components/AuthProvider";
@@ -18,7 +19,7 @@ axios.defaults.baseURL = 'http://localhost:4000'
 axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
-  const showNavBar = !["/sign-in", "/sign-up"].includes(location.pathname)
+  const showNavBar = !["/sign-in", "/sign-up", "/staff/login", "/staff/register"].includes(location.pathname)
   return (
     <AuthProvider>
     {showNavBar && <NavBar/>}
@@ -30,11 +31,12 @@ function App() {
         <Route path="/verify/:email" element={<VerifyOtp />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/orders/:orderId" element={<OrderDetails />} />
+        <Route path="/order-confirmation" element={<Order />} />
 
         {/* Staff Routes */}
+        <Route path="/staff/register" element={<StaffRegister />} />
         <Route path="/staff/login" element={<StaffLogin />} />
-        <Route path="/staff/orders" element={<StaffOrders />} />
+        <Route path="/staff/orders" element={<OrderManagement/>} />
 
         {/* 404 Not Found */}
         <Route element={<Error />} />

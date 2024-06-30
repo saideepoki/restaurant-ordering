@@ -6,6 +6,8 @@ import cookieParser from "cookie-Parser";
 import { authenticateToken } from "./middleware/authenticateToken";
 import orderRouter from "./routes/order.routes";
 import cartRouter from "./routes/cart.routes";
+import staffRouter from "./routes/staff.routes";
+import { authorizeRole } from "./middleware/authorizeRoles";
 
 const express = require('express');
 const cors = require('cors');
@@ -42,6 +44,7 @@ import userRouter from "./routes/user.routes";
 
 // routes declaration
 app.use('/user',userRouter);
+app.use('/staff', staffRouter);
 app.use('/order', orderRouter);
 app.use('/cart', cartRouter);
 

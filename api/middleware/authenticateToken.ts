@@ -1,18 +1,27 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+import User from '../models/User';
 
-export function authenticateToken(req, res, next) {
-  const token = req.cookies.accessToken;
-
-  if (!token) {
-    return res.sendStatus(401); // Unauthorized if no token
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) {
-      return res.sendStatus(403); // Forbidden if token is invalid
+export const authenticateToken = (req, res, next) => {
+    const token = req.cookies.accessToken;
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Access token is missing' });
     }
-    req.user = user; // Attach user data from token payload to request object
-    next(); 
-  });
-}
 
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ success: false, message: 'Invalid token' });
+        }
+
+        try {
+            const user = await User.findById(decoded.id);
+            if (!user) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+
+            req.user = { id: user._id, role: user.role };
+            next();
+        } catch (error) {
+            res.status(500).json({ success: false, message: 'Internal Server Error' });
+        }
+    });
+};

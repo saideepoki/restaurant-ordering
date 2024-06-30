@@ -1,9 +1,10 @@
 import Order from '../models/Order';
+import CartItem from '../models/Cart';
 
 // GET all orders
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('customer').populate('items.menuItem');
+    const orders = await Order.find().populate('customer').populate('items.menuItem');  
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch orders' });
@@ -12,7 +13,7 @@ export const getAllOrders = async (req, res) => {
 
 // GET order by ID
 export const getOrderById = async (req, res) => {
-  const orderId = req.params.id;
+  const orderId = req.params._id;
 
   try {
     const order = await Order.findById(orderId).populate('customer').populate('items.menuItem');
@@ -27,20 +28,44 @@ export const getOrderById = async (req, res) => {
 
 // POST create new order
 export const createOrder = async (req, res) => {
-  const { customerId, tableNumber, items, totalAmount } = req.body;
+  const { tableNumber } = req.body;
+  const userId = req.user._id; // Assuming req.user is set by authenticateToken middleware
 
   try {
-    const newOrder = await Order.create({
-      customer: customerId,
-      tableNumber,
-      items,
-      totalAmount,
-      status: 'pending',
-    });
+      // Fetch cart items for the user
+      const cartItems = await CartItem.find({ user: userId }).populate('item');
 
-    res.status(201).json(newOrder);
+      if (!cartItems || cartItems.length === 0) {
+          return res.status(400).json({ success: false, message: 'No items in the cart.' });
+      }
+
+      // Calculate total amount
+      let totalAmount = 0;
+      cartItems.forEach(item => {
+          totalAmount += item.quantity * item.item.price;
+      });
+
+      // Create new order instance
+      const newOrder = new Order({
+          customer: userId,
+          tableNumber,
+          items: cartItems.map(item => ({
+              menuItem: item.item._id,
+              quantity: item.quantity
+          })),
+          totalAmount
+      });
+
+      // Save order to the database
+      await newOrder.save();
+
+      // Clear cart after order creation
+      await CartItem.deleteMany({ user: userId });
+
+      res.json({ success: true, message: 'Order created successfully.', order: newOrder });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to create order' });
+      console.error('Failed to create order:', error);
+      res.status(500).json({ success: false, message: 'Failed to create order.' });
   }
 };
 

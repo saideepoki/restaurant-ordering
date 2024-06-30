@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import registerUser from '../controllers/register';
+import {registerUser} from '../controllers/register';
 import { verifyUserOtp } from '../controllers/verifyOtp';
 import {loginUser} from '../controllers/login'
 import { logoutUser } from '../controllers/logout';

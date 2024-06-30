@@ -3,6 +3,7 @@ import express from 'express';
 const cartRouter = express.Router();
 import CartItem from '../models/Cart';
 import jwt from 'jsonwebtoken';
+import Order from '../models/Order';
 
 // Add item to cart
 cartRouter.post('/add', async (req, res) => {
@@ -143,6 +144,60 @@ cartRouter.delete('/', async (req, res) => {
     } catch (error) {
         console.error('Failed to remove cart item:', error);
         res.status(500).json({ success: false, message: 'Failed to remove cart item.' });
+    }
+});
+
+
+// Create order
+cartRouter.post('/checkout', async (req, res) => {
+    const accessToken = req.cookies.accessToken;
+    const { tableNumber } = req.body;
+
+    try {
+        // Verify and decode accessToken
+        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({ success: false, message: 'Token is not valid' });
+            }
+
+            const userId = decoded.id;
+
+            // Fetch cart items for the user
+            const cartItems = await CartItem.find({ user: userId }).populate('item');
+
+            if (!cartItems || cartItems.length === 0) {
+                return res.status(400).json({ success: false, message: 'No items in the cart.' });
+            }
+
+            // Calculate total amount
+            let totalAmount = 0;
+            cartItems.forEach(item => {
+                totalAmount += item.quantity * item.item.price;
+            });
+
+            // Create new order
+            const newOrder = new Order({
+                customer: userId,
+                tableNumber,
+                items: cartItems.map(item => ({
+                    menuItem: item.item._id,
+                    quantity: item.quantity
+                })),
+                totalAmount
+            });
+
+            // Save order
+            await newOrder.save();
+
+            // Clear cart after order creation
+            await CartItem.deleteMany({ user: userId });
+            const populatedOrder = await Order.findById(newOrder._id).populate('items.menuItem').populate('customer');
+
+            res.json({ success: true, message: 'Order created successfully.', order: populatedOrder });
+        });
+    } catch (error) {
+        console.error('Failed to create order:', error);
+        res.status(500).json({ success: false, message: 'Failed to create order.' });
     }
 });
 
