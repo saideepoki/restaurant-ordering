@@ -12,16 +12,52 @@ import { Input } from "../components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { LoginSchema } from "../schemas/Login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Croissant } from "lucide-react";
+import axios, { AxiosError } from "axios";
+import { useToast } from "../components/ui/use-toast";
+import { ApiResponse } from "../types/ApiResponse";
 
 function Login() {
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
   });
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   async function onSubmit(data: any) {
-    console.log(data);
+    try {
+      const response = await axios.post('/user/login', {
+        identifier: data.identifier,
+        password: data.password,
+      });
+
+      if (!response.data.success) {
+        toast({
+          title: "Login",
+          description: response.data.message,
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Login",
+          description: "Login successful",
+          variant: "default"
+        });
+
+        // Redirect to dashboard or another authenticated page
+        navigate('/');
+      }
+    } catch (err) {
+      const axiosError = err as AxiosError<ApiResponse>;
+      const errorMessage = axiosError.response?.data.message ?? "Internal Server Error";
+      console.error(errorMessage);
+      toast({
+        title: "Login",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    }
   }
 
   return (
@@ -46,9 +82,9 @@ function Login() {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email / Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Email / Username" {...field} />
+                    <Input placeholder="Email or Username" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

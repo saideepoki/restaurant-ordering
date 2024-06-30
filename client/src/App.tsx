@@ -4,7 +4,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import VerifyOtp from "./pages/VerifyUser";
 import Menu from "./pages/Menu";
-import Cart from "./pages/Cart";
+import Cart from './pages/Cart';
 import OrderDetails from "./pages/OrderDetails";
 import StaffLogin from "./pages/StaffLogin";
 import StaffOrders from "./pages/StaffOrders";
@@ -12,13 +12,15 @@ import Error from "./pages/Error";
 import NavBar from "./components/NavBar";
 import axios from "axios";
 import { Toaster } from "./components/ui/toaster";
+import { AuthProvider } from "./components/AuthProvider";
 
 axios.defaults.baseURL = 'http://localhost:4000'
+axios.defaults.withCredentials = true;
 function App() {
   const location = useLocation();
   const showNavBar = !["/sign-in", "/sign-up"].includes(location.pathname)
   return (
-    <>
+    <AuthProvider>
     {showNavBar && <NavBar/>}
     <Routes>
         {/* Customer Routes */}
@@ -38,7 +40,7 @@ function App() {
         <Route element={<Error />} />
       </Routes>
       <Toaster/>
-    </>
+    </AuthProvider>
   )
 }
 

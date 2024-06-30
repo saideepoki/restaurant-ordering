@@ -3,6 +3,9 @@ import { populateMenuItems } from "./utils/populateMenuItems";
 import { featuredItems } from "./controllers/featuredItems";
 import { menuItems } from "./controllers/menuItems";
 import cookieParser from "cookie-Parser";
+import { authenticateToken } from "./middleware/authenticateToken";
+import orderRouter from "./routes/order.routes";
+import cartRouter from "./routes/cart.routes";
 
 const express = require('express');
 const cors = require('cors');
@@ -27,7 +30,7 @@ app.use(cookieParser())
 
 
 app.get('/',(req: any,res: any) => {
-    res.json("Home route")
+    res.json({ message: 'Welcome to the dashboard!'});
 })
 
 app.get('/featuredItems',featuredItems);
@@ -39,6 +42,8 @@ import userRouter from "./routes/user.routes";
 
 // routes declaration
 app.use('/user',userRouter);
+app.use('/order', orderRouter);
+app.use('/cart', cartRouter);
 
 
 app.listen(4000);

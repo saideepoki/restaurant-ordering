@@ -39,6 +39,15 @@ const OrderSchema: Schema = new Schema({
     }
 })
 
+OrderSchema.methods.calculateTotalAmount = function () {
+    let total = 0;
+    this.items.forEach((item) => {
+      // Assuming MenuItem model has a price field
+      total += item.quantity * item.menuItem.price;
+    });
+    this.totalAmount = total;
+  };
+
 const Order = (mongoose.models.Order) || (mongoose.model('Order',OrderSchema));
 
 export default Order;

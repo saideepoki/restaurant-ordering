@@ -13,7 +13,7 @@ const registerUser = async (req: Request, res: Response) => {
         isVerified: true,
     })
     if(existingUserByUsername) {
-      return res.status(400).json({ success: false, message: 'User already exists' });
+      return res.status(400).json({ success: false, message: 'Username already taken' });
     }
 
     const existingUser = await User.findOne({ email });

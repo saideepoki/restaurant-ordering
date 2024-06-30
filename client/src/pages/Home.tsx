@@ -1,8 +1,25 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import FeaturedFoodItems from '../components/FeaturedItems';
+import axios from 'axios';
 
 function Home() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await axios.get('/user/check-auth');
+        setIsAuthenticated(response.data.isAuthenticated);
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -17,11 +34,13 @@ function Home() {
                 View Menu
               </Button>
             </Link>
-            <Link to="/sign-up">
-              <Button className="bg-transparent border border-yellow-500 text-yellow-500 px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-500 hover:text-black transition duration-300 animate__animated animate__fadeInUp animate__delay-2s">
-                Sign Up
-              </Button>
-            </Link>
+            {!isAuthenticated && (
+              <Link to="/sign-up">
+                <Button className="bg-transparent border border-yellow-500 text-yellow-500 px-6 py-3 text-lg font-semibold rounded-full shadow-lg hover:bg-yellow-500 hover:text-black transition duration-300 animate__animated animate__fadeInUp animate__delay-2s">
+                  Sign Up
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>
