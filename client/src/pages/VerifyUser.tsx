@@ -9,59 +9,63 @@ import {
   FormMessage,
 } from "../components/ui/form";
 import { Input } from "../components/ui/input";
-import { SignupSchema } from "../schemas/Signup";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Link,useNavigate} from "react-router-dom";
-import { Soup } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import { useToast } from "../components/ui/use-toast";
 import { ApiResponse } from "../types/ApiResponse";
+import { OtpSchema } from "../schemas/OtpSchema";
+import { Soup } from "lucide-react";
+import { Link } from "react-router-dom";
 
-function Signup() {
-  const form = useForm<z.infer<typeof SignupSchema>>({
-    resolver: zodResolver(SignupSchema),
+function VerifyOtp() {
+  const { email } = useParams(); // Extract email from route params
+  const form = useForm<z.infer<typeof OtpSchema>>({
+    resolver: zodResolver(OtpSchema),
+    defaultValues: {
+      otp: '',
+    },
   });
-  const {toast} = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   async function onSubmit(data: any) {
-    try{
-      const response = await axios.post('/user/register',{
-        username: data.username,
-        email: data.email,
-        password: data.password
-      })
-      if(!response.data.success) {
+    try {
+      const response = await axios.post('/user/verify', {
+        email: email,
+        otp: data.otp,
+      });
+      if (!response.data.success) {
         toast({
-          title: "Registration",
+          title: "Verification",
           description: response.data.message,
           variant: "destructive"
-        })
+        });
+      } else {
+        toast({
+          title: "Verification",
+          description: response.data.message,
+          variant: "default"
+        });
+        navigate('/sign-in'); // Redirect to sign-in page on success
       }
-      toast({
-        title: "Registration",
-        description: response.data.message,
-        variant: "default"
-      })
-      navigate(`/verify/${data.email}`);
-    }catch(err) {
+    } catch (err) {
       const axiosError = err as AxiosError<ApiResponse>;
       const errorMessage = axiosError.response?.data.message ?? "Internal Server Error";
       console.error(errorMessage);
       toast({
-        title: "Registration",
+        title: "Verification",
         description: errorMessage,
         variant: "destructive"
-      })
-
+      });
     }
   }
 
   return (
     <div className="min-h-screen flex">
       {/* Left section with the photo */}
-      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: `url("/sign-up.jpg")`}}>
+      <div className="hidden md:flex w-1/2 bg-cover bg-center" style={{ backgroundImage: `url("/verify-otp.jpg")`}}>
         
       </div>
 
@@ -77,53 +81,27 @@ function Signup() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
             <FormField
               control={form.control}
-              name="username"
+              name="otp"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>OTP</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="Password" {...field} />
+                    <Input placeholder="Enter your OTP" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex justify-center items-center">
-              <Button type="submit">Submit</Button>
+              <Button type="submit">Verify OTP</Button>
             </div>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already registered?{" "}
-            <Link to="/sign-in" className="text-zinc-600">
-              Log in
+            Didn't receive an OTP?{" "}
+            <Link to="/resend-otp" className="text-zinc-600">
+              Resend OTP
             </Link>
           </p>
         </div>
@@ -132,4 +110,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default VerifyOtp;
