@@ -15,6 +15,8 @@ require('dotenv').config();
 
 const app = express();
 
+const port = process.env.PORT || 4000;
+
 mongoose.connect(process.env.MONGODB_URL ?? "")
 .then(() => console.log("Connected to DB Successfully"))
 .catch((err) => console.error(err))
@@ -49,4 +51,4 @@ app.use('/order', orderRouter);
 app.use('/cart', cartRouter);
 
 
-app.listen(4000);
+app.listen(port);
