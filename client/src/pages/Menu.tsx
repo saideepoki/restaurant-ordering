@@ -18,7 +18,7 @@ export default function MenuPage() {
         if(!response.data.success) {
           toast({
             title: "Database retrieval",
-            message: response.data.message,
+            description: response.data.message,
             variant: "destructive",
           })
         }
@@ -29,7 +29,7 @@ export default function MenuPage() {
         console.error(errorMessage);
         toast({
           title: "Database retreival",
-          message: errorMessage,
+          description: errorMessage,
           variant: "destructive",
         })
       }

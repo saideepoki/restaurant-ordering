@@ -1,7 +1,7 @@
 import mongoose, {Schema, Document} from "mongoose";
 
 
-const OrderHistorySchema: Schema = new Schema({
+const OrderHistorySchema = new Schema({
     customer: {
         type: Schema.Types.ObjectId,
         ref: 'User',

@@ -17,7 +17,7 @@ export default function CartPage() {
                 } else {
                     toast({
                         title: 'Failed to fetch cart items',
-                        message: response.data.message,
+                        description: response.data.message,
                         variant: 'destructive',
                     });
                 }
@@ -25,7 +25,7 @@ export default function CartPage() {
                 console.error('Failed to fetch cart items:', error);
                 toast({
                     title: 'Failed to fetch cart items',
-                    message: 'An error occurred while fetching cart items.',
+                    description: 'An error occurred while fetching cart items.',
                     variant: 'destructive',
                 });
             }
@@ -45,7 +45,7 @@ export default function CartPage() {
             } else {
                 toast({
                     title: 'Failed to update quantity',
-                    message: response.data.message,
+                    description: response.data.message,
                     variant: 'destructive',
                 });
             }
@@ -53,7 +53,7 @@ export default function CartPage() {
             console.error('Failed to update quantity:', error);
             toast({
                 title: 'Failed to update quantity',
-                message: 'An error occurred while updating quantity.',
+                description: 'An error occurred while updating quantity.',
                 variant: 'destructive',
             });
         }
@@ -83,13 +83,13 @@ export default function CartPage() {
                 setCartItems(updatedCartItems);
                 toast({
                     title: 'Item removed',
-                    message: 'Item removed from cart successfully.',
-                    variant: 'success',
+                    description: 'Item removed from cart successfully.',
+                    variant: 'default',
                 });
             } else {
                 toast({
                     title: 'Failed to remove item',
-                    message: response.data.message,
+                    description: response.data.message,
                     variant: 'destructive',
                 });
             }
@@ -97,7 +97,7 @@ export default function CartPage() {
             console.error('Failed to remove item from cart:', error);
             toast({
                 title: 'Failed to remove item',
-                message: 'An error occurred while removing item from cart.',
+                description: 'An error occurred while removing item from cart.',
                 variant: 'destructive',
             });
         }
@@ -110,13 +110,13 @@ export default function CartPage() {
                 setCartItems([]);
                 toast({
                     title: 'Cart cleared',
-                    message: 'Cart cleared successfully.',
-                    variant: 'success',
+                    description: 'Cart cleared successfully.',
+                    variant: 'default',
                 });
             } else {
                 toast({
                     title: 'Failed to clear cart',
-                    message: response.data.message,
+                    description: response.data.message,
                     variant: 'destructive',
                 });
             }
@@ -124,7 +124,7 @@ export default function CartPage() {
             console.error('Failed to clear cart:', error);
             toast({
                 title: 'Failed to clear cart',
-                message: 'An error occurred while clearing cart.',
+                description: 'An error occurred while clearing cart.',
                 variant: 'destructive',
             });
         }
@@ -139,7 +139,7 @@ export default function CartPage() {
           } else {
               toast({
                   title: 'Failed to create order',
-                  message: response.data.message,
+                  description: response.data.message,
                   variant: 'destructive',
               });
           }
@@ -147,7 +147,7 @@ export default function CartPage() {
           console.error('Failed to proceed to checkout:', error);
           toast({
               title: 'Failed to proceed to checkout',
-              message: 'An error occurred while proceeding to checkout.',
+              description: 'An error occurred while proceeding to checkout.',
               variant: 'destructive',
           });
       }

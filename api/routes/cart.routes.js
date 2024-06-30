@@ -1,9 +1,9 @@
 // routes/cart.js
 import express from 'express';
 const cartRouter = express.Router();
-import CartItem from '../models/Cart';
+import CartItem from '../models/Cart.js';
 import jwt from 'jsonwebtoken';
-import Order from '../models/Order';
+import Order from '../models/Order.js';
 
 // Add item to cart
 cartRouter.post('/add', async (req, res) => {

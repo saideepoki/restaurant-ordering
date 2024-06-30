@@ -1,17 +1,16 @@
 import mongoose from "mongoose";
-import { populateMenuItems } from "./utils/populateMenuItems";
-import { featuredItems } from "./controllers/featuredItems";
-import { menuItems } from "./controllers/menuItems";
-import cookieParser from "cookie-Parser";
-import { authenticateToken } from "./middleware/authenticateToken";
-import orderRouter from "./routes/order.routes";
-import cartRouter from "./routes/cart.routes";
-import staffRouter from "./routes/staff.routes";
-import { authorizeRole } from "./middleware/authorizeRoles";
-
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
+import { populateMenuItems } from "./utils/populateMenuItems.js";
+import { featuredItems } from "./controllers/featuredItems.js";
+import { menuItems } from "./controllers/menuItems.js";
+import { authenticateToken } from "./middleware/authenticateToken.js";
+import orderRouter from "./routes/order.routes.js";
+import cartRouter from "./routes/cart.routes.js";
+import staffRouter from "./routes/staff.routes.js";
+import { authorizeRole } from "./middleware/authorizeRoles.js";
+import express from "express";
+import cors from "cors";
+import 'dotenv/config'
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -31,9 +30,7 @@ app.use(cors({
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
 
-
-
-app.get('/',(req: any,res: any) => {
+app.get('/',(req,res) => {
     res.json({ message: 'Welcome to the dashboard!'});
 })
 
@@ -42,7 +39,7 @@ app.get('/featuredItems',featuredItems);
 app.get('/menuItems',menuItems);
 
 // routes import
-import userRouter from "./routes/user.routes";
+import userRouter from "./routes/user.routes.js";
 
 // routes declaration
 app.use('/user',userRouter);

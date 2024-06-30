@@ -15,13 +15,13 @@ const MenuItemCard = ({ item }) => {
         setRating(newRating);
         toast({
           title: 'Rating Updated',
-          message: 'Item rating updated successfully.',
-          variant: 'success',
+          description: 'Item rating updated successfully.',
+          variant: 'default',
         });
       } else {
         toast({
           title: 'Rating Update Failed',
-          message: response.data.message,
+          description: response.data.message,
           variant: 'destructive',
         });
       }
@@ -29,7 +29,7 @@ const MenuItemCard = ({ item }) => {
       console.error('Failed to update rating:', error);
       toast({
         title: 'Rating Update Failed',
-        message: 'An error occurred while updating item rating.',
+        description: 'An error occurred while updating item rating.',
         variant: 'destructive',
       });
     }
@@ -41,13 +41,13 @@ const MenuItemCard = ({ item }) => {
       if (response.data.success) {
         toast({
           title: 'Item added',
-          message: 'Item added to cart successfully.',
-          variant: 'success',
+          description: 'Item added to cart successfully.',
+          variant: 'default',
         });
       } else {
         toast({
           title: 'Add to cart failed',
-          message: response.data.message,
+          description: response.data.message,
           variant: 'destructive',
         });
       }
@@ -55,7 +55,7 @@ const MenuItemCard = ({ item }) => {
       console.error('Failed to add item to cart:', error);
       toast({
         title: 'Add to cart failed',
-        message: 'An error occurred while adding item to cart.',
+        description: 'An error occurred while adding item to cart.',
         variant: 'destructive',
       });
     }

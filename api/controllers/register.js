@@ -1,10 +1,9 @@
 // controllers/register.js
-import User from '../models/User';
-import { Request, Response } from 'express';
+import User from '../models/User.js';
 import crypto from 'crypto';
-import { sendVerificationEmail } from '../helpers/sendVerificationEmail';
+import { sendVerificationEmail } from '../helpers/sendVerificationEmail.js';
 
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     // Check if user already exists
@@ -56,7 +55,7 @@ export const registerUser = async (req: Request, res: Response) => {
 
 }
 
-export const registerStaff = async (req: Request, res: Response) => {
+export const registerStaff = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     // Check if user already exists

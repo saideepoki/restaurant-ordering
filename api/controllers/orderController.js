@@ -1,5 +1,5 @@
-import Order from '../models/Order';
-import CartItem from '../models/Cart';
+import Order from '../models/Order.js';
+import CartItem from '../models/Cart.js';
 
 // GET all orders
 export const getAllOrders = async (req, res) => {

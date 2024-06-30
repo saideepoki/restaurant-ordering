@@ -1,6 +1,6 @@
-import MenuItem from "../models/MenuItem";
+import MenuItem from "../models/MenuItem.js";
 
-export async function featuredItems(req: any,res: any) {
+export async function featuredItems(req,res) {
     try {
         const featuredItems = await MenuItem.find({featured: true})
         if(!featuredItems || featuredItems.length === 0) {

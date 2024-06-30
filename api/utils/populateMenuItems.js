@@ -1,4 +1,4 @@
-import MenuItem from "../models/MenuItem";
+import MenuItem from "../models/MenuItem.js";
 
 export async function populateMenuItems() {
     const indianCuisines = [

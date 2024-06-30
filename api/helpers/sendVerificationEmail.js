@@ -1,6 +1,6 @@
-import { transporter } from "../utils/nodemailerConfig";
+import { transporter } from "../utils/nodemailerConfig.js";
 
-export async function sendVerificationEmail(email: string, otp: string) {
+export async function sendVerificationEmail(email, otp) {
 
   const options = {
     from: 'deeps2657@gmail.com',

@@ -1,7 +1,7 @@
-import mongoose,{Schema, Document} from "mongoose";
+import mongoose,{Schema} from "mongoose";
 
 
-const MenuItemSchema: Schema = new Schema({
+const MenuItemSchema = new Schema({
     name: {
         type: String,
         required: true
